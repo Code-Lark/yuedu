@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/card.css">
 
+    <script src="./resource/layui/layui.js"></script>
+
 </head>
 <body>
 
@@ -41,6 +43,13 @@
             <div class='count' id='following'>
                 <div class='num'>1,623</div>
                 have read Keli's books
+            </div>
+        </div>
+        <div class="layui-upload-drag" style="display: block;" id="ID-upload-demo-drag">
+            <i class="layui-icon layui-icon-upload"></i>
+            <div>点击上传，或将文件拖拽到此处</div>
+            <div class="layui-hide" id="ID-upload-demo-preview">
+                <hr> <img src="" alt="上传成功后渲染" style="max-width: 100%">
             </div>
         </div>
     </div>
@@ -80,7 +89,7 @@
         <div class='synop'>". $json->books[0]->remark ."</div>
         <div class='details'>
             <i class='layui-icon layui-icon-eye'></i>
-            ".$json->books[0]->views."
+            ".$json->books[0]->chapter."
         </div>
     </div>";
 
@@ -89,6 +98,25 @@
 
 </div>
 
-
+<script>
+    layui.use(function(){
+        var upload = layui.upload;
+        var $ = layui.$;
+        // 渲染
+        upload.render({
+            elem: '#ID-upload-demo-drag',
+            accept: 'file',
+            dataType: 'json',
+            url: '/yuedu/upload.php', // 实际使用时改成您自己的上传接口即可。
+            done: function(res){
+                layer.msg('上传成功');
+                // $('#ID-upload-demo-preview').removeClass('layui-hide')
+                //     .find('img').attr('src', res.files.file);
+                console.log(res)
+                console.log("okkk")
+            }
+        });
+    });
+</script>
 </body>
 </html>
