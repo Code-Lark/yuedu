@@ -84,14 +84,20 @@
         $str = fread($fp, filesize($file_path));//指定读取大小，这里把整个文件内容读取出来
 
         $json=json_decode($str);
-        echo "<div class='book' onclick='window.open(\"/yuedu/chapter.php?name=" . $json->books[0]->name . "\")'>
-        <div class='title'>". $json->books[0]->name ."</div>
-        <div class='synop'>". $json->books[0]->remark ."</div>
-        <div class='details'>
-            <i class='layui-icon layui-icon-eye'></i>
-            ".$json->books[0]->chapter."
-        </div>
-    </div>";
+
+//        TODO 添加书籍
+        for ($i = 0; $i < count($json->books); $i++) {
+            echo "<div class='book' onclick='window.open(\"/yuedu/chapter.php?name=" . $json->books[$i]->name . "\")'>
+                        <div class='title'>". $json->books[$i]->name ."</div>
+                        <div class='synop'>". $json->books[$i]->remark ."</div>
+                        <div class='details'>
+                            <i class='layui-icon layui-icon-eye'></i>
+                            ".$json->books[$i]->chapter."
+                        </div>
+                  </div>";
+        }
+
+
 
     }
     ?>
@@ -114,6 +120,20 @@
                 //     .find('img').attr('src', res.files.file);
                 console.log(res)
                 console.log("okkk")
+                var data=res['data'];
+                console.log(data['name'])
+                var tab=document.querySelector('#bookshelf');
+                var div = "<div class='book' onclick='window.open(\"/yuedu/chapter.php?name="+data['name']+"\")'> " +
+                "<div class='title'>"+data['name']+"</div> " +
+                "<div class='synop'>"+data['remark']+"</div> " +
+                "<div class='details'> " +
+                "<i class='layui-icon layui-icon-eye'></i>" +
+                data['chapter'] +
+                "</div>" +
+                "</div>";
+                //字符串类型
+                tab.insertAdjacentHTML('beforeend',div);	//插入元素内部的最后一个子节点之后
+
             }
         });
     });
